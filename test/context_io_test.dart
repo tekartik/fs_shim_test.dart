@@ -12,6 +12,17 @@ FileSystemTestContext ctx = newIoFileSystemContext(top);
 
 main() {
   defineTests(ctx);
+  group('raw_io', () {
+    test('dir', () async {
+      Directory top = await ctx.prepare();
+      //Directory
+      Directory dir = new Directory(join(top.path, 'dir'));
+      expect(await dir.exists(), isFalse);
+      await dir.create();
+      expect(await dir.exists(), isTrue);
+      //print(top);
+    });
+  });
 }
 
 void defineTests(FileSystemTestContext ctx) {

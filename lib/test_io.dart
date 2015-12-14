@@ -1,8 +1,8 @@
 library fs_shim_test.test_io.dart;
 
-export 'test.dart';
-export 'context_io.dart';
-
+export 'test.dart' hide File, Directory, Link, FileSystemEntity;
+export 'context_io.dart' hide File, Directory, Link, FileSystemEntity;
+export 'package:fs_shim/fs_io.dart';
 import 'dart:mirrors';
 
 ///
