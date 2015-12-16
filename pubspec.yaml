@@ -1,10 +1,9 @@
 name: fs_shim_test
 description: fs_shim test context helpers
-version: 0.0.1
+version: 0.2.0
 author: Alexandre Roux Tekartik <alex@tekartik.com>
 dependencies:
-  fs_shim:
-    git: git://github.com/tekartik/fs_shim.dart
+  fs_shim: any
   dev_test: any
   test: any
   platform_context:
