@@ -9,5 +9,5 @@ dependencies:
   platform_context:
     git: git://github.com/tekartik/platform_context.dart
 dev_dependencies:
-  tekartik_pub:
-    git: git://github.com/tekartik/tekartik_pub.dart
+#  tekartik_pub:
+#    git: git://github.com/tekartik/tekartik_pub.dart

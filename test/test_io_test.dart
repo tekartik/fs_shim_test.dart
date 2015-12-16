@@ -1,19 +1,10 @@
 @TestOn("vm")
 library fs_shim_test.test.context_test;
 
-import 'package:dev_test/test.dart';
-import 'package:fs_shim_test/context_io.dart';
-import 'context_test.dart' as context_test;
-import 'dart:mirrors';
-import 'package:path/path.dart';
-import 'package:fs_shim/fs_io.dart';
+import 'package:fs_shim_test/test_io.dart';
+import 'test_test.dart' as test_test;
 
-String getScriptPath(Type type) =>
-    (reflectClass(type).owner as LibraryMirror).uri.toFilePath();
-
-abstract class TestScript {
-  String get path => getScriptPath(this.runtimeType);
-}
+class TestScript extends Script {}
 
 String get testScriptPath => getScriptPath(TestScript);
 String top = join(dirname(testScriptPath), 'out');
@@ -21,7 +12,7 @@ FileSystemTestContext ctx = newIoFileSystemContext(top);
 
 main() {
   defineTests(ctx);
-  group('raw_io', () {
+  group('test_io_raw', () {
     test('dir', () async {
       Directory top = await ctx.prepare();
       //Directory
@@ -35,8 +26,8 @@ main() {
 }
 
 void defineTests(FileSystemTestContext ctx) {
-  context_test.defineTests(ctx);
-  group('context_io', () {
+  test_test.defineTests(ctx);
+  group('test_io', () {
     test('prepare', () async {
       Directory top = await ctx.prepare();
 

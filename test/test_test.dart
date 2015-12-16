@@ -1,9 +1,6 @@
 library fs_shim_test.test.context_test;
 
-import 'package:fs_shim_test/context.dart';
-import 'package:dev_test/test.dart';
-import 'package:fs_shim/fs.dart';
-import 'package:path/path.dart';
+import 'package:fs_shim_test/test.dart';
 
 FileSystemTestContext ctx = memoryFileSystemTestContext;
 FileSystem get fs => ctx.fs;
