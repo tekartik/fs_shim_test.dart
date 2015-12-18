@@ -11,3 +11,6 @@ dependencies:
 dev_dependencies:
 #  tekartik_pub:
 #    git: git://github.com/tekartik/tekartik_pub.dart
+dependency_overrides:
+#  fs_shim:
+#    git: git://github.com/tekartik/fs_shim.dart

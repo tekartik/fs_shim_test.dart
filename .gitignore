@@ -16,3 +16,5 @@ pubspec.lock
 
 # wstorm
 .idea/
+# test out
+out/

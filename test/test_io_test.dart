@@ -26,8 +26,8 @@ main() {
 }
 
 void defineTests(FileSystemTestContext ctx) {
-  test_test.defineTests(ctx);
   group('test_io', () {
+    test_test.defineTests(ctx);
     test('prepare', () async {
       Directory top = await ctx.prepare();
 
