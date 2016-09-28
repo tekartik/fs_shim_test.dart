@@ -14,3 +14,5 @@ dev_dependencies:
 dependency_overrides:
 #  fs_shim:
 #    git: git://github.com/tekartik/fs_shim.dart
+#  fs_shim:
+#    path: ../fs_shim.dart
