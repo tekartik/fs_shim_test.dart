@@ -9,6 +9,6 @@ dartanalyzer --fatal-warnings \
   lib/test.dart \
   lib/test_io.dart \
 
-pub run test -p vm
+pub run test -p vm,chrome
 # pub run test -p content-shell -j 1
 # pub run test -p firefox -j 1 --reporter expanded
