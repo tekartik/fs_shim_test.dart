@@ -8,8 +8,8 @@ import 'context.dart';
 import 'package:platform_context/context.dart';
 import 'package:platform_context/context_io.dart';
 
-IoFileSystemTestContext newIoFileSystemContext(String top) {
-  return new IoFileSystemTestContext()..top = top;
+IoFileSystemTestContext newIoFileSystemContext([String top]) {
+  return new IoFileSystemTestContext()..top = top ?? join('tmp', 'test');
 }
 
 class IoFileSystemTestContext extends FileSystemTestContext {

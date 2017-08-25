@@ -4,13 +4,13 @@ fs_shim test helper for setting up test context
 
 ## Usage
 
-## any context (io, browser)
+### any context (io, browser)
 
     import 'package:fs_shim_test/test.dart';
 
     FileSystemTestContext ctx = memoryFileSystemTestContext;
 
-## io
+###  io
 
     import 'package:fs_shim_test/test_io.dart';
 
@@ -21,3 +21,9 @@ fs_shim test helper for setting up test context
     FileSystemTestContext ctx = newIoFileSystemContext(top);
 
 
+## Setup
+
+Bleeding edge:
+
+  fs_shim_test:
+    git: git://github.com/tekartik/fs_shim_test.dart
