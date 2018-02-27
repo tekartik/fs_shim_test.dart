@@ -3,11 +3,7 @@
 # Fast fail the script on failures.
 set -e
 
-dartanalyzer --fatal-warnings \
-  lib/context.dart \
-  lib/context_io.dart \
-  lib/test.dart \
-  lib/test_io.dart \
+dartanalyzer --fatal-warnings lib test
 
 pub run test -p vm,chrome
 # pub run test -p content-shell -j 1

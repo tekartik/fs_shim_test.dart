@@ -19,3 +19,6 @@ pubspec.lock
 # test out
 out/
 tmp/
+
+# Local files
+.local/
