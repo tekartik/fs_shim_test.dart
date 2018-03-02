@@ -1,9 +1,9 @@
 name: fs_shim_test
 description: fs_shim test context helpers
-version: 0.2.2
+version: 0.3.0
 author: Alexandre Roux Tekartik <alex@tekartik.com>
 dependencies:
-  fs_shim: '>=0.7.2'
+  fs_shim: '>=0.7.3'
   dev_test: any
   test: any
   platform_context:
