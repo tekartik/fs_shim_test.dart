@@ -23,7 +23,7 @@ main() {
   defineTests(ctx);
   group('raw_io', () {
     test('dir', () async {
-      Directory top = await ctx.prepare();
+      Directory top = await ctx.prepare() as Directory;
       //Directory
       Directory dir = new Directory(join(top.path, 'dir'));
       expect(await dir.exists(), isFalse);
@@ -38,7 +38,7 @@ void defineTests(FileSystemTestContext ctx) {
   context_test.defineTests(ctx);
   group('context_io', () {
     test('prepare', () async {
-      Directory top = await ctx.prepare();
+      Directory top = await ctx.prepare() as Directory;
 
       // check path
       List<String> parts = split(top.path);

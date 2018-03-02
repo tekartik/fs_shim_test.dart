@@ -14,14 +14,14 @@ FileSystemTestContext ctx = newIoFileSystemContext();
 main() {
   group('template', () {
     test('dir', () async {
-      Directory top = await ctx.prepare();
+      Directory top = await ctx.prepare() as Directory;
       //Directory
       Directory dir = new Directory(join(top.path, 'dir'));
 
       await deleteDirectory(dir);
       expect(await dir.exists(), isFalse);
 
-      File file = childFile(dir, "file");
+      File file = childFile(dir, "file") as File;
       await writeString(file, "test");
 
       await dir.create();
@@ -32,8 +32,8 @@ main() {
     });
 
     test('file', () async {
-      Directory top = await ctx.prepare();
-      File file = childFile(top, "file");
+      Directory top = await ctx.prepare() as Directory;
+      File file = childFile(top, "file") as File;
       expect(await file.exists(), isFalse);
       await writeString(file, "test");
       await deleteFile(file);
