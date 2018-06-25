@@ -9,7 +9,7 @@ export 'package:fs_shim/utils/io/read_write.dart';
 export 'package:fs_shim/utils/io/entity.dart';
 
 class FileSystemTestContext {
-  final fs.IoFileSystemTestContext _context;
+  final fs.FileSystemTestContextIo _context;
   FileSystemTestContext([String top])
       : _context = fs.newIoFileSystemContext(top);
 

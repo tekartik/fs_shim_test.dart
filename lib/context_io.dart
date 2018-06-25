@@ -8,13 +8,13 @@ import 'context.dart';
 import 'package:platform_context/context.dart';
 import 'package:platform_context/context_io.dart';
 
-IoFileSystemTestContext newIoFileSystemContext([String top]) {
-  return new IoFileSystemTestContext()..top = top ?? join('tmp', 'test');
+FileSystemTestContextIo newIoFileSystemContext([String top]) {
+  return new FileSystemTestContextIo()..top = top ?? join('tmp', 'test');
 }
 
-class IoFileSystemTestContext extends FileSystemTestContext {
+class FileSystemTestContextIo extends FileSystemTestContext {
   final PlatformContext platform = ioPlatformContext;
-  final IoFileSystem fs = new IoFileSystem();
+  final FileSystem fs = fileSystemIo;
   String top;
   String get outPath => join(top, super.outPath);
 }
