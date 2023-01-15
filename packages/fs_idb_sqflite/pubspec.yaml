@@ -9,7 +9,7 @@ environment:
 dependencies:
   sqflite_common_ffi:
   sqflite_common:
-  fs_shim:
+  fs_shim: '>=2.1.0-7'
   idb_shim:
   path:
   idb_sqflite:

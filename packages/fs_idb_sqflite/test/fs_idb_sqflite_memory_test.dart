@@ -16,10 +16,9 @@ import 'fs_idb_sqflite_test.dart';
 class FileSystemTestContextIdbSqfliteMemory
     extends FileSystemTestContextIdbWithOptions {
   @override
-  late final IdbFileSystem fs = () {
+  late final IdbFileSystem rawFsIdb = () {
     var fs = newIdbSqfliteFileSystem(inMemoryDatabasePath);
 
-    fs = fs.withIdbOptions(options: options);
     return fs as FileSystemIdb;
   }();
 

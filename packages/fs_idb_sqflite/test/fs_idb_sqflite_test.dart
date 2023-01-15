@@ -22,7 +22,7 @@ var _index = 0;
 class FileSystemTestContextIdbSqflite
     extends FileSystemTestContextIdbWithOptions {
   @override
-  late final IdbFileSystem fs = () {
+  late final IdbFileSystem rawFsIdb = () {
     var fs = newIdbSqfliteFileSystem('test_idb_sqflite_${++_index}.db');
 
     fs = fs.withIdbOptions(options: options);

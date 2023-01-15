@@ -26,10 +26,9 @@ var _index = 0;
 
 class FileSystemTestContextIdbIo extends FileSystemTestContextIdbWithOptions {
   @override
-  late final IdbFileSystem fs = () {
+  late final IdbFileSystem rawFsIdb = () {
     var fs = newIdbIoFileSystem('test_idb_io_${++_index}');
 
-    fs = fs.withIdbOptions(options: options);
     return fs as FileSystemIdb;
   }();
 
