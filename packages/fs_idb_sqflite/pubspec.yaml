@@ -1,5 +1,5 @@
 name: fs_idb_sqflite
-description: A sample command-line application.
+description: Test fs on idb and sqflite.
 version: 1.0.0
 publish_to: none
 
