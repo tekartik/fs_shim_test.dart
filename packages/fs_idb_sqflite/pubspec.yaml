@@ -10,7 +10,7 @@ dependencies:
   sqflite_common_ffi:
   sqflite_common:
   fs_shim: '>=2.1.0-7'
-  idb_shim:
+  idb_shim: '>=2.3.2'
   path:
   idb_sqflite:
   tekartik_fs_test:
