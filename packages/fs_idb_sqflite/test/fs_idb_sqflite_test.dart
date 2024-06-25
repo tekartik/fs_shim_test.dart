@@ -10,6 +10,7 @@ import 'package:idb_sqflite/idb_sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:tekartik_fs_test/fs_test.dart';
 import 'package:tekartik_fs_test/test_common.dart';
+import 'package:test/test.dart';
 
 final _idbFactory = getIdbFactorySqflite(databaseFactoryFfi);
 
