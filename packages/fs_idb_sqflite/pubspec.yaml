@@ -4,14 +4,14 @@ version: 1.0.0
 publish_to: none
 
 environment:
-  sdk: ^3.5.0
+  sdk: ^3.6.0
 
 dependencies:
-  sqflite_common_ffi: '>=2.3.1'
+  sqflite_common_ffi: ">=2.3.4"
   sqflite_common: '>=2.5.0+2'
-  fs_shim: '>=2.1.0-7'
+  fs_shim: ">=2.3.3+1"
   idb_shim: '>=2.3.2'
-  path:
+  path: ">=1.9.0"
   idb_sqflite:
   tekartik_fs_test:
     git:
@@ -20,8 +20,8 @@ dependencies:
       ref: dart3a
     version: '>=0.1.0'
 dev_dependencies:
-  lints: '>=2.0.0'
-  test: '>=1.16.0'
+  lints: ">=5.0.0"
+  test: ">=1.24.0"
 
 dependency_overrides:
   # fs_shim:
