@@ -1,7 +1,6 @@
 @TestOn('vm')
 // Copyright (c) 2015, Alexandre Roux. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
-
 library;
 
 import 'package:fs_shim/fs_idb.dart';
@@ -31,7 +30,7 @@ class FileSystemTestContextIdbSqflite
   }();
 
   FileSystemTestContextIdbSqflite({FileSystemIdbOptions? options})
-      : super(options: options ?? FileSystemIdbOptions.pageDefault);
+    : super(options: options ?? FileSystemIdbOptions.pageDefault);
 }
 
 void main() {
@@ -42,7 +41,7 @@ void main() {
       FileSystemIdbOptions.pageDefault,
       FileSystemIdbOptions.noPage,
       const FileSystemIdbOptions(pageSize: 2),
-      const FileSystemIdbOptions(pageSize: 1024)
+      const FileSystemIdbOptions(pageSize: 1024),
     ]) {
       group('pageSize ${options.pageSize}', () {
         defineFsTests(FileSystemTestContextIdbSqflite(options: options));

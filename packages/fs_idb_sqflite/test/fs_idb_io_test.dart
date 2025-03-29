@@ -17,9 +17,10 @@ final _idbFactory = getIdbFactorySembastIo(testOutTopPath);
 FileSystem newIdbIoFileSystem([String? name]) {
   // IdbFactoryLogger.debugMaxLogCount = devWarning(256);
   return newFileSystemIdb(
-      // devWarning(getIdbFactoryLogger(getIdbFactorySembastIo(testOutTopPath))),
-      _idbFactory,
-      name);
+    // devWarning(getIdbFactoryLogger(getIdbFactorySembastIo(testOutTopPath))),
+    _idbFactory,
+    name,
+  );
 }
 
 var _index = 0;
@@ -33,7 +34,7 @@ class FileSystemTestContextIdbIo extends FileSystemTestContextIdbWithOptions {
   }();
 
   FileSystemTestContextIdbIo({FileSystemIdbOptions? options})
-      : super(options: options ?? FileSystemIdbOptions.pageDefault);
+    : super(options: options ?? FileSystemIdbOptions.pageDefault);
 }
 
 void main() {
@@ -43,7 +44,7 @@ void main() {
       FileSystemIdbOptions.pageDefault,
       FileSystemIdbOptions.noPage,
       const FileSystemIdbOptions(pageSize: 2),
-      const FileSystemIdbOptions(pageSize: 1024)
+      const FileSystemIdbOptions(pageSize: 1024),
     ]) {
       group('pageSize ${options.pageSize}', () {
         defineFsTests(FileSystemTestContextIdbIo(options: options));
