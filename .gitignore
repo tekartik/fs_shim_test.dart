@@ -14,8 +14,6 @@ build/
 # Include when developing application packages.
 pubspec.lock
 
-# wstorm
-.idea/
 # test out
 out/
 tmp/
@@ -24,6 +22,7 @@ tmp/
 .local/
 
 # IDE
-.idea/
-.vscode/
+.*
+!.gitignore
 *.iml
+/pubspec_overrides.yaml
