@@ -9,8 +9,8 @@ environment:
 dependencies:
   sqflite_common_ffi: ">=2.3.4"
   sqflite_common: '>=2.5.0+2'
-  fs_shim: ">=2.5.0-1"
-  idb_shim: '>=2.3.2'
+  fs_shim: ">=2.5.0+3"
+  idb_shim: '>=2.8.2'
   path: ">=1.9.0"
   idb_sqflite:
   tekartik_fs_test:

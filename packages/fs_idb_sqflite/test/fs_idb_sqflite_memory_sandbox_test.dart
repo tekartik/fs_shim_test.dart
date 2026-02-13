@@ -31,5 +31,8 @@ void main() {
   // debugIdbShowLogs = devWarning(true);
   group('idb_sqflite_memory_sandbox', () {
     defineFsTests(testContext.sandbox(path: '/sandbox'));
+    defineFsTests(
+      testContext.sandbox(path: 'other_sandbox').sandbox(path: '/sub'),
+    );
   });
 }
