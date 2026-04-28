@@ -12,7 +12,7 @@ dependencies:
   fs_shim: ">=2.5.0+3"
   idb_shim: '>=2.8.2'
   path: ">=1.9.0"
-  idb_sqflite:
+  idb_sqflite: ">=1.4.1"
   tekartik_fs_test:
     git:
       url: https://github.com/tekartik/fs_shim.dart
