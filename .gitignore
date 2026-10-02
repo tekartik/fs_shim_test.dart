@@ -26,3 +26,6 @@ tmp/
 !.gitignore
 *.iml
 /pubspec_overrides.yaml
+!.github/
+/packages_flutter/fs_explorer_app/linux/
+/packages_flutter/fs_explorer_app/web/

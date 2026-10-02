@@ -1,0 +1,45 @@
+name: fs_explorer_app
+description: Browse the fs_shim file systems (memory, io, web) and watch scenarios write to them.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.35.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # The explorer core: FileSystemExplorer, entries and kinds.
+  festenao_common:
+    git:
+      url: https://github.com/tekaly/festenao
+      path: packages/festenao_common
+  # The explorer screens: list browsing, text/hex editors, root picker.
+  festenao_common_flutter:
+    git:
+      url: https://github.com/tekaly/festenao
+      path: packages_flutter/festenao_common_flutter
+  fs_shim: ">=2.5.5"
+  # The records scenario writes a sembast database.
+  sembast: ">=3.8.5+1"
+  idb_shim: ">=2.9.10"
+  path: ">=1.9.1"
+  # The platform file system (io on mobile and desktop, indexeddb on the web)
+  # and the documents/support directories of every file system.
+  tekartik_app_flutter_fs:
+    git:
+      url: https://github.com/tekartik/app_flutter_utils.dart
+      path: app_fs
+    version: ">=0.2.0"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  # The driver entry point, test_driver/app.dart, for driving the app.
+  flutter_driver:
+    sdk: flutter
+  flutter_lints: ">=6.0.0"
+
+flutter:
+  uses-material-design: true
