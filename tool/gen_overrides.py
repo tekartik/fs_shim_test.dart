@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Regenerate pubspec_overrides.yaml for local development: every tekartik /
-tekaly / festenao package reachable from this package (transitively, through
-the local checkouts' own pubspecs) is mapped to its local checkout under
-~/tekartik/devx/git/github.com. Missing ones are listed as comments.
+"""Regenerate the root pubspec_overrides.yaml for local development: every
+tekartik / tekaly / festenao package reachable from the workspace members
+(transitively, through the local checkouts' own pubspecs) is mapped to its
+local checkout under ~/tekartik/devx/git/github.com. Missing ones are listed
+as comments.
 
     python3 tool/gen_overrides.py
+    flutter pub get
 
 The file is git ignored; CI resolves the git dependencies at their HEAD.
 """
@@ -14,8 +16,8 @@ import re
 import subprocess
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# packages_flutter/fs_explorer_app -> fs_shim_test.dart -> tekartik -> github.com
-G = os.path.realpath(os.path.join(ROOT, '..', '..', '..', '..'))
+# fs_shim_test.dart -> tekartik -> github.com
+G = os.path.realpath(os.path.join(ROOT, '..', '..'))
 PREFIXES = ('tekartik_', 'tekaly_', 'festenao_', 'tkcms_')
 NAMED = {
     'cv': 'tekartik/cv.dart/packages/cv',
@@ -104,7 +106,24 @@ def local_path(name):
     return None
 
 
-members = [os.path.join(ROOT, 'pubspec.yaml')]
+def workspace_members():
+    """The pubspecs of the workspace members listed in the root pubspec."""
+    members = []
+    in_workspace = False
+    for line in open(os.path.join(ROOT, 'pubspec.yaml')):
+        if line.startswith('workspace:'):
+            in_workspace = True
+            continue
+        if in_workspace:
+            m = re.match(r'^  - (\S+)', line)
+            if m:
+                members.append(os.path.join(ROOT, m.group(1), 'pubspec.yaml'))
+            elif re.match(r'^\S', line):
+                in_workspace = False
+    return members
+
+
+members = workspace_members()
 member_names = {open(m).readline().strip().replace('name: ', '') for m in members}
 
 todo = set()

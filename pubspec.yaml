@@ -5,3 +5,4 @@ environment:
 workspace:
   - packages/fs_idb_sqflite
   - repo_support
+  - packages_flutter/fs_explorer_app

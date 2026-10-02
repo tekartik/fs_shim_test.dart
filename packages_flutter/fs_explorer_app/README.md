@@ -1,7 +1,7 @@
 # fs_explorer_app
 
 A Flutter app browsing the `fs_shim` file systems — memory, io, web — and
-watching scenarios write to them.
+watching scenarios write to them. [Online demo](https://demo_fs_explorer.surge.sh)
 
 The screens come from `festenao_common_flutter`'s file system explorer (the
 list explorer, the text, hex and object editors, the demo documents and
@@ -39,13 +39,25 @@ flutter run -d chrome
 flutter run -d linux
 ```
 
+## Publish
+
+The web app is published on <https://demo_fs_explorer.surge.sh> (surge cli,
+logged in):
+
+```sh
+dart run tool/build_and_serve.dart   # a wasm build, served locally
+dart run tool/build_and_deploy.dart  # built and published
+```
+
 ## Local development
 
-The dependencies are git ones; `tool/gen_overrides.py` writes a
+The package is a member of the repository workspace. Its dependencies are git
+ones; the repository's `tool/gen_overrides.py` writes the root
 `pubspec_overrides.yaml` (git ignored) mapping them to the local checkouts
 under `~/tekartik/devx/git/github.com`:
 
 ```sh
+# from the repository root
 python3 tool/gen_overrides.py
 flutter pub get
 ```
