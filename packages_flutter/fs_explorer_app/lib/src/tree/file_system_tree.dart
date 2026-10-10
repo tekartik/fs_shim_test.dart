@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:festenao_common_flutter/file_system_explorer_flutter.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// One visible row of a [FileSystemTreeController]: an entry and how deep it
 /// sits, the root being depth 0.

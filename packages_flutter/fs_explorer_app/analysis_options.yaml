@@ -21,5 +21,4 @@ linter:
     - prefer_single_quotes
     - public_member_api_docs
     - unawaited_futures
-    - unnecessary_await_in_return
     - unnecessary_lambdas

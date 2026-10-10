@@ -1,6 +1,6 @@
 import 'package:festenao_common_flutter/file_system_explorer_flutter.dart';
-import 'package:flutter/material.dart';
 import 'package:fs_shim/fs.dart' show Directory;
+import 'package:material_ui/material_ui.dart';
 
 import '../file_system_choice.dart';
 import 'open_entry.dart';

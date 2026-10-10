@@ -1,5 +1,5 @@
 import 'package:festenao_common_flutter/file_system_explorer_flutter.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../tree/file_system_tree.dart';
 import 'open_entry.dart';

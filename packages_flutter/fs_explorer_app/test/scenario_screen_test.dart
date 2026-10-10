@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fs_explorer_app/fs_explorer_app.dart';
 import 'package:fs_shim/fs_memory.dart';
+import 'package:material_ui/material_ui.dart';
 
 FsChoice _memoryChoice() => FsChoice(
   id: 'memory',

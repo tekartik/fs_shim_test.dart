@@ -1,5 +1,5 @@
 import 'package:festenao_common_flutter/file_system_explorer_flutter.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// The `+` menu of a list screen: the default files plus a populated demo of
 /// each kind the explorer handles.
