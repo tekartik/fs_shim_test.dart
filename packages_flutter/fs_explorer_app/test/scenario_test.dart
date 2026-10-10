@@ -105,6 +105,8 @@ void main() {
         tick: const Duration(milliseconds: 5),
       );
       final running = runner.start(CreateFileEverySecondScenario(count: 20));
+      // Logged, the fifth write leaves the scenario waiting for its next
+      // tick, and it waits for the clear too: it then finds ticks/ gone.
       await _until(
         () =>
             runner.entries

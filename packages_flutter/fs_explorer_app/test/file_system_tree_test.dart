@@ -24,10 +24,21 @@ List<String> _names(FileSystemTreeController controller) => controller.rows
     .map((row) => '${'  ' * row.depth}${row.entry.name}')
     .toList();
 
-/// Pumps between real delays: the memory file system is really
-/// asynchronous, so everything runs in [WidgetTester.runAsync].
-Future<void> _settle(WidgetTester tester) async {
-  for (var i = 0; i < 10; i++) {
+/// Pumps between real delays until [finder] finds [count] widgets, failing
+/// after [timeout]: the memory file system is really asynchronous, so
+/// everything runs in [WidgetTester.runAsync], and a loaded runner takes far
+/// longer than a fixed number of frames to list a directory.
+Future<void> _settleUntil(
+  WidgetTester tester,
+  Finder finder, {
+  int count = 1,
+  Duration timeout = const Duration(minutes: 2),
+}) async {
+  final watch = Stopwatch()..start();
+  while (finder.evaluate().length != count) {
+    if (watch.elapsed > timeout) {
+      fail('$finder: not $count after ${watch.elapsed}');
+    }
     await tester.pump(const Duration(milliseconds: 20));
     await Future<void>.delayed(const Duration(milliseconds: 5));
   }
@@ -217,26 +228,26 @@ void main() {
             ),
           ),
         );
-        await _settle(tester);
+        await _settleUntil(tester, find.text('config.json'));
         expect(find.text('root'), findsOneWidget);
         expect(find.text('sub'), findsOneWidget);
         expect(find.text('config.json'), findsOneWidget);
         expect(find.text('deep'), findsNothing);
 
         await tester.tap(find.text('sub'));
-        await _settle(tester);
+        await _settleUntil(tester, find.text('deep'));
         expect(find.text('deep'), findsOneWidget);
         await tester.tap(find.text('deep'));
-        await _settle(tester);
+        await _settleUntil(tester, find.text('note.txt'));
         expect(find.text('note.txt'), findsOneWidget);
         expect(find.text('5 B'), findsOneWidget);
 
         await tester.tap(find.text('note.txt'));
-        await _settle(tester);
+        await tester.pump();
         expect(opened?.path, 'sub/deep/note.txt');
 
         await tester.tap(find.text('sub'));
-        await _settle(tester);
+        await _settleUntil(tester, find.text('deep'), count: 0);
         expect(find.text('deep'), findsNothing);
         controller.dispose();
       });

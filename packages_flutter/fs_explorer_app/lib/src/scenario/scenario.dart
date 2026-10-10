@@ -114,6 +114,9 @@ class FsScenarioContext {
 
   /// Waits [duration], a [tick] by default; false when the scenario was
   /// stopped meanwhile — the scenario then returns.
+  ///
+  /// A [FsScenarioRunner.clear] under way ends first: the next step finds
+  /// what the clear left, not a directory half deleted.
   Future<bool> wait([Duration? duration]) async {
     if (isCancelled) {
       return false;
@@ -128,6 +131,10 @@ class FsScenarioContext {
     };
     await completer.future;
     _runner._wakeUp = null;
+    final clearing = _runner._clearing;
+    if (clearing != null) {
+      await clearing;
+    }
     return !isCancelled;
   }
 
@@ -208,6 +215,7 @@ class FsScenarioRunner extends ChangeNotifier {
   var _failures = 0;
   void Function()? _wakeUp;
   Future<void>? _running;
+  Future<void>? _clearing;
 
   /// Runner in [explorer], a step every [tick].
   FsScenarioRunner({
@@ -318,7 +326,16 @@ class FsScenarioRunner extends ChangeNotifier {
 
   /// Deletes everything in the scenarios directory, running scenario or not —
   /// the "Clear data" of the app, what the browser does to the site data.
-  Future<void> clear() async {
+  ///
+  /// A running scenario waiting for its next step waits for the clear too.
+  Future<void> clear() {
+    final clearing = _clearing ??= _clear().whenComplete(
+      () => _clearing = null,
+    );
+    return clearing;
+  }
+
+  Future<void> _clear() async {
     final entries = await explorer.list();
     for (final entry in entries) {
       await explorer.delete(entry.path);

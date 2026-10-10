@@ -12,8 +12,31 @@ FsChoice _memoryChoice() => FsChoice(
 
 /// Pumps between real delays: the file system is really asynchronous, so
 /// everything runs in [WidgetTester.runAsync].
-Future<void> _settle(WidgetTester tester, {int times = 10}) async {
-  for (var i = 0; i < times; i++) {
+Future<void> _settle(WidgetTester tester) async {
+  for (var i = 0; i < 10; i++) {
+    await tester.pump(const Duration(milliseconds: 20));
+    await Future<void>.delayed(const Duration(milliseconds: 5));
+  }
+}
+
+/// Pumps between real delays until every finder of [finders] finds one
+/// widget, or none for those of [gone], failing after [timeout]: a loaded
+/// runner takes far longer than a fixed number of frames to run a scenario
+/// or to list a directory.
+Future<void> _settleUntil(
+  WidgetTester tester,
+  List<Finder> finders, {
+  List<Finder> gone = const [],
+  Duration timeout = const Duration(minutes: 2),
+}) async {
+  bool done() =>
+      finders.every((finder) => finder.evaluate().length == 1) &&
+      gone.every((finder) => finder.evaluate().isEmpty);
+  final watch = Stopwatch()..start();
+  while (!done()) {
+    if (watch.elapsed > timeout) {
+      fail('$finders, none of $gone: not there after ${watch.elapsed}');
+    }
     await tester.pump(const Duration(milliseconds: 20));
     await Future<void>.delayed(const Duration(milliseconds: 5));
   }
@@ -28,7 +51,8 @@ Future<void> _pump(
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
   await tester.pumpWidget(MaterialApp(home: home));
-  await _settle(tester);
+  // Until the scenarios directory is made and its tree listed.
+  await _settleUntil(tester, [find.text('Start'), find.text('scenarios')]);
 }
 
 void main() {
@@ -58,7 +82,12 @@ void main() {
         );
 
         await tester.tap(find.text('Start'));
-        await _settle(tester, times: 30);
+        // Until the run is over and the tree has listed what it wrote.
+        await _settleUntil(tester, [
+          find.text('Done, every step went through'),
+          find.text('tick_03.txt'),
+          find.text('3 files'),
+        ]);
         expect(find.text('Done, every step went through'), findsOneWidget);
         expect(find.text('done'), findsOneWidget);
         expect(find.text('3/3'), findsOneWidget);
@@ -76,14 +105,19 @@ void main() {
 
         // Collapsed by hand, it stays so.
         await tester.tap(find.text('ticks'));
-        await _settle(tester);
+        await _settleUntil(tester, [], gone: [find.text('tick_01.txt')]);
         expect(find.text('tick_01.txt'), findsNothing);
 
         // Clear data wipes the tree, the log says so.
         await tester.tap(find.text('Clear data'));
+        // The dialog opens in fake time, no file system involved.
         await _settle(tester);
         await tester.tap(find.text('Clear'));
-        await _settle(tester);
+        await _settleUntil(
+          tester,
+          [find.textContaining('Cleared 1 entry')],
+          gone: [find.text('create_file_every_second')],
+        );
         expect(find.text('tick_01.txt'), findsNothing);
         expect(find.text('create_file_every_second'), findsNothing);
         expect(find.textContaining('Cleared 1 entry'), findsOneWidget);
@@ -120,19 +154,19 @@ void main() {
         tester.view.devicePixelRatio = 1;
         addTearDown(tester.view.reset);
         await tester.pumpWidget(FsExplorerApp(choices: [choice]));
-        await _settle(tester);
+        await _settleUntil(tester, [find.text('Memory')]);
         expect(find.text('fs_shim explorer'), findsOneWidget);
         expect(find.text('Memory'), findsOneWidget);
 
         await tester.tap(find.text('Memory'));
-        await _settle(tester);
+        await _settleUntil(tester, [find.text('Support')]);
         expect(find.text('Scenarios'), findsOneWidget);
         expect(find.text('App data'), findsOneWidget);
         expect(find.text('Documents'), findsOneWidget);
         expect(find.text('Support'), findsOneWidget);
 
         await tester.tap(find.text('App data'));
-        await _settle(tester);
+        await _settleUntil(tester, [find.text('0 files')]);
         expect(find.text('tree'), findsOneWidget);
         expect(find.text('0 files'), findsOneWidget);
       });
