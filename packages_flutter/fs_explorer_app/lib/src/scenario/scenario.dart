@@ -116,7 +116,8 @@ class FsScenarioContext {
   /// stopped meanwhile — the scenario then returns.
   ///
   /// A [FsScenarioRunner.clear] under way ends first: the next step finds
-  /// what the clear left, not a directory half deleted.
+  /// what the clear left, not a directory half deleted. A clear that fails
+  /// does not end the scenario, its caller gets the error.
   Future<bool> wait([Duration? duration]) async {
     if (isCancelled) {
       return false;
@@ -133,7 +134,11 @@ class FsScenarioContext {
     _runner._wakeUp = null;
     final clearing = _runner._clearing;
     if (clearing != null) {
-      await clearing;
+      try {
+        await clearing;
+      } catch (_) {
+        // Reported by the clear, the scenario goes on.
+      }
     }
     return !isCancelled;
   }

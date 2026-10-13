@@ -23,13 +23,23 @@ class FileSystemTestContextIdbSqflite
     extends FileSystemTestContextIdbWithOptions {
   @override
   late final IdbFileSystem rawFsIdb = () {
-    var fs = newIdbSqfliteFileSystem('test_idb_sqflite_${++_index}.db');
-
-    fs = fs.withIdbOptions(options: options);
-    return fs as FileSystemIdb;
+    // The options are applied by the base fs getter
+    return newIdbSqfliteFileSystem('test_idb_sqflite_${++_index}.db')
+        as FileSystemIdb;
   }();
 
   FileSystemTestContextIdbSqflite({FileSystemIdbOptions? options})
+    : super(options: options ?? FileSystemIdbOptions.pageDefault);
+}
+
+/// In memory sqflite database.
+class FileSystemTestContextIdbSqfliteMemory
+    extends FileSystemTestContextIdbWithOptions {
+  @override
+  late final IdbFileSystem rawFsIdb =
+      newIdbSqfliteFileSystem(inMemoryDatabasePath) as FileSystemIdb;
+
+  FileSystemTestContextIdbSqfliteMemory({FileSystemIdbOptions? options})
     : super(options: options ?? FileSystemIdbOptions.pageDefault);
 }
 

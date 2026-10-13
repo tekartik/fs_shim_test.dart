@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:festenao_common/fs/file_system_explorer.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fs_explorer_app/fs_explorer_app.dart';
@@ -10,6 +12,23 @@ Future<FileSystemExplorer> _newExplorer() async {
 }
 
 const _tick = Duration(milliseconds: 1);
+
+/// Explorer whose [list] waits for [listGate] then fails, when set.
+class _FailingListExplorer extends FileSystemExplorer {
+  Completer<void>? listGate;
+
+  _FailingListExplorer({required super.fileSystem, required super.rootPath});
+
+  @override
+  Future<List<FileSystemEntry>> list([String path = '']) async {
+    final gate = listGate;
+    if (gate != null) {
+      await gate.future;
+      throw StateError('list failed');
+    }
+    return super.list(path);
+  }
+}
 
 /// Waits until [condition] holds.
 Future<void> _until(bool Function() condition) async {
@@ -134,6 +153,32 @@ void main() {
         runner.entries.any((entry) => entry.message.startsWith('Cleared')),
         isTrue,
       );
+      runner.dispose();
+    });
+
+    test('a clear that fails does not end the scenario', () async {
+      final fs = newFileSystemMemory();
+      await fs.directory('scenarios').create(recursive: true);
+      final explorer = _FailingListExplorer(
+        fileSystem: fs,
+        rootPath: 'scenarios',
+      );
+      final runner = FsScenarioRunner(explorer: explorer, tick: _tick);
+      final scenario = _GatedScenario();
+      final running = runner.start(scenario);
+      await _until(
+        () => runner.entries.any((entry) => entry.message == 'Step 1'),
+      );
+      final listGate = explorer.listGate = Completer<void>();
+      final clearing = runner.clear();
+      // The scenario waits for the clear under way.
+      scenario.gate.complete();
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      listGate.complete();
+      await expectLater(clearing, throwsStateError);
+      await running;
+      expect(runner.state, FsScenarioState.done, reason: '${runner.entries}');
+      expect(runner.entries.map((entry) => entry.message), contains('Step 2'));
       runner.dispose();
     });
 
@@ -278,5 +323,29 @@ class _CrashingScenario extends FsScenario {
   @override
   Future<void> run(FsScenarioContext context) async {
     throw Exception('crash');
+  }
+}
+
+/// Logs Step 1, waits for [gate] then for a tick, logs Step 2.
+class _GatedScenario extends FsScenario {
+  final gate = Completer<void>();
+
+  @override
+  String get id => 'gated';
+
+  @override
+  String get title => 'Gated';
+
+  @override
+  String get description => '';
+
+  @override
+  Future<void> run(FsScenarioContext context) async {
+    context.action('Step 1');
+    await gate.future;
+    if (!await context.wait()) {
+      return;
+    }
+    context.action('Step 2');
   }
 }

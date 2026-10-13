@@ -5,25 +5,10 @@ library;
 
 import 'package:test/test.dart';
 import 'package:fs_shim/fs_idb.dart';
-import 'package:fs_shim/src/idb/idb_file_system.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:tekartik_fs_test/fs_test.dart';
-import 'package:tekartik_fs_test/test_common.dart';
 
 import 'fs_idb_sqflite_test.dart';
-
-class FileSystemTestContextIdbSqfliteMemory
-    extends FileSystemTestContextIdbWithOptions {
-  @override
-  late final IdbFileSystem rawFsIdb = () {
-    var fs = newIdbSqfliteFileSystem(inMemoryDatabasePath);
-
-    return fs as FileSystemIdb;
-  }();
-
-  FileSystemTestContextIdbSqfliteMemory({FileSystemIdbOptions? options})
-    : super(options: options ?? FileSystemIdbOptions.pageDefault);
-}
 
 void main() {
   sqfliteFfiInit();
