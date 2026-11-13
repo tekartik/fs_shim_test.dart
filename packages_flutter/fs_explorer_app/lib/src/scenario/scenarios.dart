@@ -135,7 +135,9 @@ class TreeChurnScenario extends FsScenario {
   Future<void> run(FsScenarioContext context) async {
     const directories = ['a', 'a/b', 'a/b/c'];
     final files = <String>[];
-    final steps = directories.length * 2 + directories.length * 2 + 1;
+    // Per directory: make it, make its file, rename the file, delete the
+    // file, delete the directory.
+    final steps = directories.length * 5;
     var step = 0;
     Future<bool> next() async {
       context.changed();

@@ -269,6 +269,26 @@ void main() {
     });
   });
 
+  group('progress', () {
+    test('the tree churn never goes past its total', () async {
+      final explorer = await _newExplorer();
+      final runner = FsScenarioRunner(explorer: explorer, tick: _tick);
+      final seen = <FsScenarioProgress>[];
+      runner.addListener(() {
+        final progress = runner.progress;
+        if (progress != null) {
+          seen.add(progress);
+        }
+      });
+      await runner.start(TreeChurnScenario());
+      expect(runner.failures, 0);
+      // Was 14/13 and 15/13, then back to 13/13.
+      expect(seen.where((progress) => progress.done > progress.total), isEmpty);
+      expect(seen.last.toString(), '15/15');
+      runner.dispose();
+    }, timeout: const Timeout(Duration(seconds: 30)));
+  });
+
   group('FsChoice', () {
     test('the app directory sits in the support directory', () async {
       final choice = FsChoice(
